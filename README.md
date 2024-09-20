@@ -1,0 +1,67 @@
+-Java Platform Module System (JPMS)
+Groups code tha a higher level. The main purpose of a module is to provide groups of related packages that offer devs a
+particular set of functionality
+
+-JAR
+Is a Zip file with some extra information
+
+-Module
+Is a group of one or more packages plus a special file (module-info.java)
+
+----Benefits of Modules----
+
+-Better access control
+-Clearer dependency management
+-Custom Java builds
+-Improved security
+-Improved performance
+-Unique package enforcement
+
+--module-info.java
+open module zoo.animal.feeding{
+    export zoo.animal.feeding ;
+    //ALl public classes, interfaces, enums and records are exported
+    //To be used by Java outside the module
+
+    requires zoo.animal.feeding;
+    //To indicate that a module is needed
+
+    export.zoo.animal.content to zoo.staff;
+    //Only module will be able to access to the package
+
+    requires transitive zoo.animal.talks;
+    //Any module that require this module will also depend on moduleName
+
+    opens zoo.animal.talk.media to zoo.staff;
+    opens zoo.animal.talk.media;
+    //Java allow you to inspect and call code at runtime using reflection
+    //open in module: All the packages in the module to be open
+
+   --Java does not allow you to repeat the same module in requires
+
+}
+
+-File must be in the root directory of your module (sames as zoo folder)
+-Use module instead of class
+-following the same name conventions of package
+
+-Re
+
+----COMMANDS---
+JAVAC
+
+javac --module-path mods -d feeding staff/zoo/staff/Jobs.java staff/module-info.java
+-p or --module-path location of custom module files
+-d Directory to place class files
+
+JAVA
+
+java -p mods --module zoo.animal.feeding/zoo.animal.feeding.Task
+--module or -m : Module / class to run
+
+JAR
+
+ jar -cvf mods/zoo.animal.care.jar -C care /.
+
+ cvf new jar file
+ -C content to ZIP or JAR
